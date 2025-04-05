@@ -92,6 +92,12 @@
 // }) 
 
 let hobbies = ["Reading", "Coding", "Gaming"];
-let addHobbies = hobbies.push("Swimming");
+console.log(hobbies);
+let addHobbies = hobbies.push("Hiking");
+console.log(hobbies);
 let addAnotherHobbies = hobbies.unshift("Cooking");
+console.log(hobbies);
+let removeLastHobbies = hobbies.pop();
+console.log(hobbies);
+let removeFirstHobbies = hobbies.shift();
 console.log(hobbies);
