@@ -5,7 +5,7 @@ const apiRouter = require("./api-routes");
 
 app.get("/", (req, res) => {
   res.send(
-    "Hallo, selamat anda telah berhasil membuat webserver dengan express js"
+    "Hallo, selamat anda telah berhasil membuat webserver express js dengan nodemon"
   ); 
 });
 
