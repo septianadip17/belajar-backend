@@ -7,5 +7,8 @@
   },
   "author": "septianadip17",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "moment": "^2.30.1"
+  }
 }
