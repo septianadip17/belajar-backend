@@ -1,0 +1,14 @@
+{
+  "name": "tugas-1",
+  "version": "1.0.0",
+  "description": "tugas pertama backend dari niomic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "septianadip17",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
