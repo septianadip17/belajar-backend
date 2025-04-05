@@ -1,20 +1,23 @@
 const express = require("express");
 const router = express.Router();
 
-app.get("/user", (req, res) => {
-  res.send("This is a user request");
+router.get("/", (req, res) => {
+  res.json({
+    status: "API it's working",
+    message: "Welcome to Resthub Backend App"
+  })
 });
 
-app.post("/user", (req, res) => {
-  res.send("This is a post request");
+router.post("/", (req, res) => {
+  res.send("Congrats! This is a post request");
 });
 
-app.put("/user", (req, res) => {
-  res.send("This is a put request");
+router.put("/", (req, res) => {
+  res.send("Congrats! This is a put request");
 });
 
-app.delete("/user", (req, res) => {
-  res.send("This is a delete request");
+router.delete("/", (req, res) => {
+  res.send("Congrats! This is a delete request");
 });
 
 module.exports = router;
