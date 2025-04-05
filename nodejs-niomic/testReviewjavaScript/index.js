@@ -53,17 +53,45 @@
 // }
 // console.log(testNum(-5));
 
-const fruit = "Bananas";
-switch (fruit) {
-  case "Papayas":
-    console.log("1kg Papayas = Rp 20.000");
-    break;
-  case "Mangoes":
-    console.log("1kg Mangoes = Rp 15.000");
-    break;
-  case "Bananas":
-    console.log("1kg Bananas = Rp 10.000");
-    break;
-  default:
-    console.log("Sorry, Out Of Order");
-}
+// const fruit = "Bananas";
+// switch (fruit) {
+//   case "Papayas":
+//     console.log("1kg Papayas = Rp 20.000");
+//     break;
+//   case "Mangoes":
+//     console.log("1kg Mangoes = Rp 15.000");
+//     break;
+//   case "Bananas":
+//     console.log("1kg Bananas = Rp 10.000");
+//     break;
+//   default:
+//     console.log("Sorry, Out Of Order");
+// }
+
+
+// // array
+// let fruits = ["Banana", "Orange", "Apple", "Mango"];
+// console.log(fruits);
+// console.log(fruits.length);
+// console.log(fruits[0]);
+// console.log(fruits[1]);
+// console.log(fruits[2]);
+// console.log(fruits[3]);
+// console.log(fruits[4]);
+
+// let foods =[];
+// if (foods.length > 0){
+//   console.log(foods);
+// }else{
+//   console.log("There is no food");
+// }
+
+// let drinks = ["Coffee", "Tea", "Juice"];
+// drinks.forEach(function(item, index){
+//   console.log(item, index);
+// }) 
+
+let hobbies = ["Reading", "Coding", "Gaming"];
+let addHobbies = hobbies.push("Swimming");
+let addAnotherHobbies = hobbies.unshift("Cooking");
+console.log(hobbies);
