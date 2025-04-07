@@ -31,7 +31,7 @@ exports.new = async function (req, res) {
     res.json({
       status: "success",
       message: "Contact added successfully",
-      contact: savedContact,
+      contact: savedContact, 
     });
   } catch (err) {
     res.status(500).json({

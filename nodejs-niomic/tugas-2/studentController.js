@@ -90,7 +90,7 @@ exports.delete = async function (req, res) {
 exports.newBatch = async function (req, res) {
   try {
     console.log("Request body:", req.body);
-    const students = await Contact.insertMany(req.body);
+    const students = await Student.insertMany(req.body);
     res.json({
       message: "Multiple students created successfully!",
       data: students,
