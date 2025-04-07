@@ -26,5 +26,7 @@ router.route("/contacts/:contact_id")
   .put(contactController.update)
   .delete(contactController.delete); 
 
+  router.route("/contacts/batch")
+    .post(contactController.newBatch);
   // export API routes
 module.exports = router;

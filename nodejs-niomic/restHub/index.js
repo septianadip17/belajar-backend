@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 
 // import body-parser
 const bodyParser = require("express");
+// const bodyParser = require("body-parser");
 
 // initialize express app
 const app = express();

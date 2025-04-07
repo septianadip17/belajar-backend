@@ -21,19 +21,23 @@ exports.index = async function (req, res) {
 // Handle create contact actions
 exports.new = async function (req, res) {
   try {
-    var contact = new Contact();
+    console.log("Request body:", req.body);
+    let contact = new Contact();
     contact.name = req.body.name;
     contact.gender = req.body.gender;
     contact.email = req.body.email;
     contact.phone = req.body.phone;
-
     const savedContact = await contact.save();
     res.json({
-      message: "New contact created!",
-      data: savedContact,
+      status: "success",
+      message: "Contact added successfully",
+      contact: savedContact,
     });
   } catch (err) {
-    res.json(err);
+    res.status(500).json({
+      status: "error",
+      message: err.message || "Some error occurred while creating the contact.",
+    });
   }
 };
 
@@ -79,5 +83,20 @@ exports.delete = async function (req, res) {
     });
   } catch (err) {
     res.send(err);
+  }
+};
+
+// Handle create multiple contacts
+exports.newBatch = async function (req, res) {
+  try {
+    console.log("Request body:", req.body);
+    const contacts = await Contact.insertMany(req.body);
+    res.json({
+      message: "Multiple contacts created successfully!",
+      data: contacts,
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    res.json(err);
   }
 };

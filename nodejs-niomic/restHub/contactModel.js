@@ -23,4 +23,4 @@ const contactSchema = mongoose.Schema({
 const Contact = module.exports = mongoose.model("contact", contactSchema);
 module.exports.get = async function (limit) {
   return await Contact.find().limit(limit);
-}
+} 
