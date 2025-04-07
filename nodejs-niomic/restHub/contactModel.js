@@ -21,6 +21,6 @@ const contactSchema = mongoose.Schema({
 
 // export contact model
 const Contact = module.exports = mongoose.model("contact", contactSchema);
-module.exports.get = function (callback, limit) {
-  Contact.find(callback).limit(limit);
+module.exports.get = async function (limit) {
+  return await Contact.find().limit(limit);
 }

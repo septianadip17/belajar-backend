@@ -1,23 +1,30 @@
+// api-routes.js
+
+// import express routes
 const express = require("express");
 const router = express.Router();
 
+// set default API response
 router.get("/", (req, res) => {
   res.json({
     status: "API it's working",
     message: "Welcome to Resthub Backend App"
-  })
+  }) 
 });
 
-router.post("/", (req, res) => {
-  res.send("Congrats! This is a post request");
-});
+// import contact controller
+const contactController = require("./contactController");
 
-router.put("/", (req, res) => {
-  res.send("Congrats! This is a put request");
-});
+// contact routes
+router.route("/contacts")
+  .get(contactController.index)
+  .post(contactController.new);
 
-router.delete("/", (req, res) => {
-  res.send("Congrats! This is a delete request");
-});
+router.route("/contacts/:contact_id")
+  .get(contactController.view)
+  .patch(contactController.update)
+  .put(contactController.update)
+  .delete(contactController.delete); 
 
+  // export API routes
 module.exports = router;
