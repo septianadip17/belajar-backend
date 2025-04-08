@@ -88,7 +88,7 @@ exports.delete = async function (req, res) {
     await Contact.deleteOne({ _id: req.params.contact_id });
     res.json({
       status: "success",
-      message: "Contact deleted",
+      message: "Contact deleted successfully!",
     });
   } catch (err) {
     res.send(err);
