@@ -21,17 +21,17 @@ exports.index = async function (req, res) {
 // Handle create contact actions
 exports.new = async function (req, res) {
   try {
-    console.log("Request body:", req.body);
     let contact = new Contact();
     contact.name = req.body.name;
     contact.gender = req.body.gender;
     contact.email = req.body.email;
     contact.phone = req.body.phone;
+
     const savedContact = await contact.save();
     res.json({
       status: "success",
       message: "Contact added successfully",
-      contact: savedContact, 
+      contact: savedContact,
     });
   } catch (err) {
     res.status(500).json({
@@ -39,7 +39,7 @@ exports.new = async function (req, res) {
       message: err.message || "Some error occurred while creating the contact.",
     });
   }
-};
+}; 
 
 // Handle view contact info
 exports.view = async function (req, res) {
@@ -58,18 +58,21 @@ exports.view = async function (req, res) {
 exports.update = async function (req, res) {
   try {
     const contact = await Contact.findById(req.params.contact_id);
-    contact.name = req.body.name ? req.body.name : contact.name;
-    contact.gender = req.body.gender ? req.body.gender : contact.gender;
-    contact.email = req.body.email ? req.body.email : contact.email;
-    contact.phone = req.body.phone ? req.body.phone : contact.phone;
-
+    contact.name = req.body.name
+    contact.gender = req.body.gender
+    contact.email = req.body.email 
+    contact.phone = req.body.phone 
     const updatedContact = await contact.save();
     res.json({
+      status: "success",
       message: "Contact Info updated",
       data: updatedContact,
     });
   } catch (err) {
-    res.json(err);
+    res.json({
+      status: "error",
+      message: "Id not found",
+    });
   }
 };
 
