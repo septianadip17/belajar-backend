@@ -9,7 +9,10 @@
   "author": "septianadip17",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^5.1.0",
-    "mongoose": "^8.13.2"
+    "mongoose": "^8.13.2",
+    "morgan": "^1.10.0",
+    "validator": "^13.15.0"
   }
 }
