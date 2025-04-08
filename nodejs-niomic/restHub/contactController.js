@@ -39,7 +39,7 @@ exports.new = async function (req, res) {
       message: err.message || "Some error occurred while creating the contact.",
     });
   }
-}; 
+};
 
 // Handle view contact info
 exports.view = async function (req, res) {
@@ -58,20 +58,28 @@ exports.view = async function (req, res) {
 exports.update = async function (req, res) {
   try {
     const contact = await Contact.findById(req.params.contact_id);
-    contact.name = req.body.name
-    contact.gender = req.body.gender
-    contact.email = req.body.email 
-    contact.phone = req.body.phone 
+    if (!contact) {
+      return res.status(404).json({
+        status: "error",
+        message: "Contact not found",
+      });
+    }
+
+    contact.name = req.body.name;
+    contact.gender = req.body.gender;
+    contact.email = req.body.email;
+    contact.phone = req.body.phone;
+
     const updatedContact = await contact.save();
     res.json({
       status: "success",
       message: "Contact Info updated",
-      data: updatedContact,
+      contact: updatedContact,
     });
   } catch (err) {
-    res.json({
+    res.status(500).json({
       status: "error",
-      message: "Id not found",
+      message: err.message || "Error updating contact information",
     });
   }
 };
