@@ -64,12 +64,10 @@ exports.update = async function (req, res) {
         message: "Contact not found",
       });
     }
-
     contact.name = req.body.name;
     contact.gender = req.body.gender;
     contact.email = req.body.email;
     contact.phone = req.body.phone;
-
     const updatedContact = await contact.save();
     res.json({
       status: "success",
