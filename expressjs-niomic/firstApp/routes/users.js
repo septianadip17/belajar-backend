@@ -21,13 +21,13 @@ router.post("/register", (req, res, next) => {
   let errors = [];
   // Check required fields
   if (!name || !email || !password || !password2) {
+    errors.push({ msg: "All fields are required"});
     console.log("All fields are required");
-    errors.push("Please fill in all fields");
   }
   // Check passwords match
   if (password !== password2) {
     console.log("Passwords do not match");
-    errors.push({ msg: "Passwords do not match" });
+    errors.push({ msg : "Passwords do not match" });
   }
   // Check password length
   if (errors.length > 0) {
