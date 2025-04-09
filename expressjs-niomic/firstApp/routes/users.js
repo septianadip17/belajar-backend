@@ -14,4 +14,60 @@ router.get("/register", function (req, res, next) {
   res.render("register", { title: "Register Page" });
 });
 
+// Post registration
+router.post("/register", (req, res, next) => {
+  const { name, email, password, password2 } = req.body;
+  console.log(req.body);
+  let errors = [];
+  // Check required fields
+  if (!name || !email || !password || !password2) {
+    console.log("All fields are required");
+    errors.push("Please fill in all fields");
+  }
+  // Check passwords match
+  if (password !== password2) {
+    console.log("Passwords do not match");
+    errors.push({ msg: "Passwords do not match" });
+  }
+  // Check password length
+  if (errors.length > 0) {
+    res.render("register", {
+      errors,
+      name,
+      email,
+      password,
+      password2,
+    });
+  } else {
+    User.findOne({ email: email }).then((user) => {
+      if (user) {
+        errors.push({ msg: "Email already exists" });
+        res.render("register", {
+          errors,
+          name,
+          email,
+          password,
+          password2,
+        });
+      } else {
+        const newUser = new User({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password,
+        });
+        newUser
+          .save()
+          .then((user) => {
+            console.log(user);
+            console.log("User registered");
+            res.redirect("/auth/login");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  }
+});
+
 module.exports = router;
