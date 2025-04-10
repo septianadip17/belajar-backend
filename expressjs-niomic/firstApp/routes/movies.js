@@ -1,7 +1,5 @@
 var express = require("express");
-
 var router = express.Router();
-
 var Movie = require("../models/movieSchema");
 
 // get all movies
@@ -24,7 +22,7 @@ router.get("/update/:movieId", function (req, res, next) {
 
 // action create movie
 router.post("/create", function (req, res) {
-  const { name, date } = req.body;
+  const { name, date } = req.body;  
   let errors = [];
   if (!name || !date) {
     errors.push({ msg: "Please fill in all fields" });
