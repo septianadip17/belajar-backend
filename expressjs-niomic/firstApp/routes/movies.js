@@ -3,8 +3,40 @@ var router = express.Router();
 var Movie = require("../models/movieSchema");
 
 // get all movies
-router.get("/", function (req, res, next) {
-  res.render("movie/allMovies", { title: "All Movies Page" });
+router.get("/", async function (req, res, next) {
+  try {
+    let ListMovies = [];
+    const movies = await Movie.find();
+    if (movies.length > 0) {
+      for (let data of movies) {
+        ListMovies.push({
+          id: data._id,
+          name: data.name,
+          released_on: data.released_on,
+        });
+      }
+    } else {
+      ListMovies.push({
+        id: "No data",
+        name: "No data",
+        date: "No data",
+      });
+    }
+    res.render("movie/allMovies", {
+      ListMovies,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).render("movie/allMovies", {
+      ListMovies: [
+        {
+          id: "Error",
+          name: "Error fetching movies",
+          date: "Error",
+        },
+      ],
+    });
+  }
 });
 
 // create new movie
@@ -22,7 +54,7 @@ router.get("/update/:movieId", function (req, res, next) {
 
 // action create movie
 router.post("/create", function (req, res) {
-  const { name, date } = req.body;  
+  const { name, date } = req.body;
   let errors = [];
   if (!name || !date) {
     errors.push({ msg: "Please fill in all fields" });
