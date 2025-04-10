@@ -81,8 +81,16 @@ router.post("/create", function (req, res) {
 });
 
 // action update movie
-router.put("/update/:movieId", function (req, res) {});
+router.post("/update/ ", function (req, res) {});
 // action delete movie
-router.delete("/delete/:movieId", function (req, res) {});
-
+router.get("/delete/:movieId", async function (req, res) {
+  try {
+    console.log(req.params.movieId);
+    await Movie.findByIdAndDelete(req.params.movieId);
+    res.redirect("/movies");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting movie");
+  }
+});
 module.exports = router;
