@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const bcrypt = require("bcrypt");
 
 // import userSchema
 const User = require("../models/userSchema");
@@ -7,6 +8,56 @@ const User = require("../models/userSchema");
 // Login page
 router.get("/login", function (req, res, next) {
   res.render("login", { title: "Login Page" });
+});
+
+// Post login
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  console.log(req.body);
+  let errors = [];
+  // Check required fields
+  if (!email || !password) {
+    errors.push({ msg: "All fields are required" });
+    console.log("All fields are required");
+  }
+  // Check passwords match
+  if (errors.length > 0) {
+    res.render("login", {
+      errors,
+      email,
+      password,
+    });
+  } else {
+    User.findOne({ email: email })
+      .then(async (user) => {
+        if (user) {
+          if (await bcrypt.compare(password, user.password)) {
+            console.log(user);
+            console.log("check" + password, " || ", user.password);
+            res.redirect("/dashboard");
+          } else {
+            console.log("Passwords do not match");
+            errors.push({ msg: "Passwords do not match" });
+            res.render("login", {
+              errors,
+            });
+          }
+        } else {
+          console.log("User does not exist");
+          errors.push({ msg: "User does not exist" });
+          res.render("login", {
+            errors,
+          });
+        }
+      })
+      .catch((err) => {
+        error.push({ msg: "Internal server error" });
+        console.log("Internal server error" + err.message);
+        res.render("login", {
+          errors,
+        });
+      });
+  }
 });
 
 // Registration page
@@ -72,7 +123,7 @@ router.post("/register", (req, res, next) => {
 
 // logout
 router.get("/logout", function (req, res) {
-  res.redirect("/"); 
+  res.redirect("/");
 });
 
 module.exports = router;
