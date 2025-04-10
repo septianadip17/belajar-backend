@@ -6,8 +6,8 @@
     <%= data.name %>
   </div>
   <div class="card-body">
-    <h5 class="card-title">Date Released: <%= data.released_on %></h5>
-    <a href="#" class="btn btn-primary">Edit</a>
+    <h5 class="card-title">Date Released : <%= data.released_on %></h5>
+    <a href="movies/update/<%= data.id %>" class="btn btn-primary">Edit</a>
     <a class="btn btn-danger" data-toggle="collapse" href="#data<%= data.id  %>" role="button" aria-expanded="false" aria-controls="collapse">
       Delete Data
     </a>

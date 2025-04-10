@@ -81,7 +81,8 @@ router.post("/create", function (req, res) {
 });
 
 // action update movie
-router.post("/update/ ", function (req, res) {});
+router.post("/update/:movieId", function (req, res) {});
+
 // action delete movie
 router.get("/delete/:movieId", async function (req, res) {
   try {
@@ -93,4 +94,5 @@ router.get("/delete/:movieId", async function (req, res) {
     res.status(500).send("Error deleting movie");
   }
 });
+
 module.exports = router;
