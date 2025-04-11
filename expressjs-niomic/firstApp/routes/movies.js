@@ -50,7 +50,7 @@ router.get("/update/:movieId", async function (req, res, next) {
   try {
     const movieInfo = await Movie.findById(req.params.movieId);
     if (movieInfo) {
-      const newDate = moment(movieInfo.released_on).format("YYYY-MM-DD");
+      var newDate = moment(movieInfo.released_on).format("YYYY-MM-DD");
       console.log("Movie Info:", movieInfo);
       console.log("Formatted Date:", newDate);
       res.render("movie/updateMovies", {
@@ -95,7 +95,30 @@ router.post("/create", function (req, res) {
 });
 
 // action update movie
-router.post("/update/:movieId", function (req, res) {});
+router.post("/update/:movieId", async function (req, res) {
+  try {
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      req.params.movieId,
+      {
+        name: req.body.name,
+        released_on: req.body.date,
+      },
+      { new: true }
+    );
+    if (!updatedMovie) {
+      return res.status(404).send("Movie not found");
+    }
+    const newDate = moment(updatedMovie.released_on).format("YYYY-MM-DD");
+    res.render("movie/updateMovies", {
+      movies: updatedMovie,
+      newDate: newDate,
+      errors: [{ msg: "Movie updated successfully" }],
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error updating movie");
+  }
+});
 
 // action delete movie
 router.get("/delete/:movieId", async function (req, res) {
