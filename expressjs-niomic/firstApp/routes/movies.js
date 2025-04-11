@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var moment = require("moment");
 var Movie = require("../models/movieSchema");
 
 // get all movies
@@ -49,9 +50,12 @@ router.get("/update/:movieId", async function (req, res, next) {
   try {
     const movieInfo = await Movie.findById(req.params.movieId);
     if (movieInfo) {
-      console.log(movieInfo);
+      const newDate = moment(movieInfo.released_on).format("YYYY-MM-DD");
+      console.log("Movie Info:", movieInfo);
+      console.log("Formatted Date:", newDate);
       res.render("movie/updateMovies", {
         movies: movieInfo,
+        newDate: newDate,
       });
     } else {
       res.status(404).send("Movie not found");
@@ -61,6 +65,7 @@ router.get("/update/:movieId", async function (req, res, next) {
     res.status(500).send("Error fetching movie");
   }
 });
+
 // action create movie
 router.post("/create", function (req, res) {
   const { name, date } = req.body;
