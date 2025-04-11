@@ -2,9 +2,10 @@ var express = require("express");
 var router = express.Router();
 var moment = require("moment");
 var Movie = require("../models/movieSchema");
+const { cekAuth  } = require("../config/auth");
 
 // get all movies
-router.get("/", async function (req, res, next) {
+router.get("/", cekAuth, async function (req, res, next) {
   try {
     let ListMovies = [];
     const movies = await Movie.find();
@@ -41,12 +42,12 @@ router.get("/", async function (req, res, next) {
 });
 
 // create new movie
-router.get("/create", function (req, res, next) {
+router.get("/create", cekAuth, function (req, res, next) {
   res.render("movie/createMovie", { title: "Create Movie Page" });
 });
 
 // update movie
-router.get("/update/:movieId", async function (req, res, next) {
+router.get("/update/:movieId", cekAuth, async function (req, res, next) {
   try {
     const movieInfo = await Movie.findById(req.params.movieId);
     if (movieInfo) {
@@ -67,7 +68,7 @@ router.get("/update/:movieId", async function (req, res, next) {
 });
 
 // action create movie
-router.post("/create", function (req, res) {
+router.post("/create", cekAuth,  function (req, res) {
   const { name, date } = req.body;
   let errors = [];
   if (!name || !date) {
@@ -95,7 +96,7 @@ router.post("/create", function (req, res) {
 });
 
 // action update movie
-router.post("/update/:movieId", async function (req, res) {
+router.post("/update/:movieId", cekAuth, async function (req, res) {
   try {
     const updatedMovie = await Movie.findByIdAndUpdate(
       req.params.movieId,
@@ -121,7 +122,7 @@ router.post("/update/:movieId", async function (req, res) {
 });
 
 // action delete movie
-router.get("/delete/:movieId", async function (req, res) {
+router.get("/delete/:movieId",  cekAuth, async function (req, res) {
   try {
     console.log(req.params.movieId);
     await Movie.findByIdAndDelete(req.params.movieId);

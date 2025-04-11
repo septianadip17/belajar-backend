@@ -2,17 +2,23 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const { forwardAuth } = require("../config/auth");
 
 // import userSchema
 const User = require("../models/userSchema");
 
 // Login page
-router.get("/login", function (req, res, next) {
+router.get("/login", forwardAuth, function (req, res, next) {
   res.render("login", { title: "Login Page" });
 });
 
+// Registration page
+router.get("/register", forwardAuth, function (req, res, next) {
+  res.render("register", { title: "Register Page" });
+});
+
 // Post login
-router.post("/login", (req, res, next) => {
+router.post("/login", forwardAuth, (req, res, next) => {
   const { email, password } = req.body;
   console.log(req.body);
   let errors = [];
@@ -30,20 +36,15 @@ router.post("/login", (req, res, next) => {
     });
   } else {
     passport.authenticate("local", {
-      successRedirect: "/dashboard",
-      failureRedirect: "/auth/login",
+      successRedirect: "/",
+      failureRedirect: "/login",
       failureFlash: true,
-    })(req, res, next); 
+    })(req, res, next);
   }
 });
 
-// Registration page
-router.get("/register", function (req, res, next) {
-  res.render("register", { title: "Register Page" });
-});
-
 // Post registration
-router.post("/register", (req, res, next) => {
+router.post("/register", forwardAuth, (req, res, next) => {
   const { name, email, password, password2 } = req.body;
   console.log(req.body);
   let errors = [];
@@ -100,6 +101,7 @@ router.post("/register", (req, res, next) => {
 
 // logout
 router.get("/logout", function (req, res) {
+  req.logout();
   res.redirect("/");
 });
 
