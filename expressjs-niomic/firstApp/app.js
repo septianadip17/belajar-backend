@@ -4,7 +4,8 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var expressLayout = require("express-ejs-layouts");
-
+const passport = require("passport");
+const flash = require("flash");
 const database = require("./config/database");
 
 var indexRouter = require("./routes/index");
