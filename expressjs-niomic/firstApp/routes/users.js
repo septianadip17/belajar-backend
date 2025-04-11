@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 // import userSchema
 const User = require("../models/userSchema");
@@ -11,7 +12,7 @@ router.get("/login", function (req, res, next) {
 });
 
 // Post login
-router.post("/login", (req, res) => {
+router.post("/login", (req, res, next) => {
   const { email, password } = req.body;
   console.log(req.body);
   let errors = [];
@@ -28,35 +29,11 @@ router.post("/login", (req, res) => {
       password,
     });
   } else {
-    User.findOne({ email: email })
-      .then(async (user) => {
-        if (user) {
-          if (await bcrypt.compare(password, user.password)) {
-            console.log(user);
-            console.log("check" + password, " || ", user.password);
-            res.redirect("/dashboard");
-          } else {
-            console.log("Passwords do not match");
-            errors.push({ msg: "Passwords do not match" });
-            res.render("login", {
-              errors,
-            });
-          }
-        } else {
-          console.log("User does not exist");
-          errors.push({ msg: "User does not exist" });
-          res.render("login", {
-            errors,
-          });
-        }
-      })
-      .catch((err) => {
-        error.push({ msg: "Internal server error" });
-        console.log("Internal server error" + err.message);
-        res.render("login", {
-          errors,
-        });
-      });
+    passport.authenticate("local", {
+      successRedirect: "/dashboard",
+      failureRedirect: "/auth/login",
+      failureFlash: true,
+    })(req, res, next); 
   }
 });
 
