@@ -100,9 +100,14 @@ router.post("/register", forwardAuth, (req, res, next) => {
 });
 
 // logout
-router.get("/logout", function (req, res) {
-  req.logout();
-  res.redirect("/");
-});
+router.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error("Error during logout:", err);
+      return next(err);
+    }
+    res.redirect("/auth/login");
+  });
+}); 
 
 module.exports = router;
