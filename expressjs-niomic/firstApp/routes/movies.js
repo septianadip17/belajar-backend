@@ -45,13 +45,22 @@ router.get("/create", function (req, res, next) {
 });
 
 // update movie
-router.get("/update/:movieId", function (req, res, next) {
-  res.render("movie/updateMovies", {
-    title: "Update Movie Page",
-    movieId: req.params.movieId,
-  });
+router.get("/update/:movieId", async function (req, res, next) {
+  try {
+    const movieInfo = await Movie.findById(req.params.movieId);
+    if (movieInfo) {
+      console.log(movieInfo);
+      res.render("movie/updateMovies", {
+        movies: movieInfo,
+      });
+    } else {
+      res.status(404).send("Movie not found");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error fetching movie");
+  }
 });
-
 // action create movie
 router.post("/create", function (req, res) {
   const { name, date } = req.body;
