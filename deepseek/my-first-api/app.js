@@ -12,6 +12,14 @@ app.get('/about', (req, res) => {
   });
 });
 
+app.get('/hobby', (req, res) => {
+  res.json({
+    hobby: "Ngoding sambil minum kopi ☕",
+    skill: "React.js", 
+    target: "Fullstack Developer!"
+  });
+});
+
 app.listen(3000, () => {
   console.log('Server berjalan di http://localhost:3000');
 });
