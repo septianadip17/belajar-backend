@@ -1,20 +1,36 @@
-const express = require('express');
-const pool = require('./db');
-require('dotenv').config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const db = require("./db"); // koneksi ke PostgreSQL
+require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Endpoint GET /menu
-app.get('/menu', async (req, res) => {
+// GET semua menu
+app.get("/menu", async (req, res) => {
+  const result = await db.query("SELECT * FROM menu");
+  res.json(result.rows);
+});
+
+// ✅ POST menu baru
+app.post("/menu", async (req, res) => {
+  const { name, price, category } = req.body;
+
   try {
-    const result = await pool.query('SELECT * FROM menu');
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    const result = await db.query(
+      "INSERT INTO menu (name, price, category) VALUES ($1, $2, $3) RETURNING *",
+      [name, price, category]
+    );
+
+    res.status(201).json({
+      message: "Menu item added!",
+      data: result.rows[0],
+    });
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    res.status(500).json({ error: "Something went wrong" });
   }
 });
 
