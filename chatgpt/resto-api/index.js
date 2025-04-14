@@ -1,39 +1,12 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const db = require("./db"); // koneksi ke PostgreSQL
-require("dotenv").config();
-
+const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const menuRoutes = require('./routes/menu');
 
-app.use(bodyParser.json());
+app.use(express.json());
 
-// GET semua menu
-app.get("/menu", async (req, res) => {
-  const result = await db.query("SELECT * FROM menu");
-  res.json(result.rows);
-});
+app.use('/menu', menuRoutes);
 
-// ✅ POST menu baru
-app.post("/menu", async (req, res) => {
-  const { name, price, category } = req.body;
-
-  try {
-    const result = await db.query(
-      "INSERT INTO menu (name, price, category) VALUES ($1, $2, $3) RETURNING *",
-      [name, price, category]
-    );
-
-    res.status(201).json({
-      message: "Menu item added!",
-      data: result.rows[0],
-    });
-  } catch (error) {
-    console.error("Error inserting data:", error);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-});
-
+const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
