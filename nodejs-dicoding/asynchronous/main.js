@@ -1,4 +1,4 @@
-import { makeCoffee } from './coffee.mjs';
+import { makeCoffee } from './coffee.js';
 
 console.log('Saya memesan kopi di kafe.');
 
