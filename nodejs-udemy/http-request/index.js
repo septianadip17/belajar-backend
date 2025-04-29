@@ -7,6 +7,10 @@ app.get("/", (req, res) => {
   console.log(req.rawHeaders);
 });
 
+app.get("/about", (req, res) => {
+  res.send("<h1>About Me</h1>");
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
