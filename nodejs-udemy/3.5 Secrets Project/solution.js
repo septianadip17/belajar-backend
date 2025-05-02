@@ -35,4 +35,5 @@ app.post("/check", (req, res) => {
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
+  console.log("Press Ctrl+C to quit.");
 });
