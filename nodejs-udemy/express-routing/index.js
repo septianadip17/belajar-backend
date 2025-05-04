@@ -12,6 +12,7 @@ app.get('/cats', (req, res) => {
 
 app.get('/dogs', (req, res) => {
   res.send('Woof!');
+  console.log('Someone made a request to /dogs');
 })
 
 app.listen(port, () => {
