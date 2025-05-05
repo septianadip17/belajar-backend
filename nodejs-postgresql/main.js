@@ -71,6 +71,21 @@ app.put("/update/:id", (req, res) => {
   })
 })
 
+// delete data by id
+app.delete("/delete/:id", (req, res) => {
+  const { id } = req.params;
+  const delete_query = "DELETE FROM demotable WHERE id = $1";
+  con.query(delete_query, [id], (err, result) => {
+    if (err) {
+      // console.log(err);
+      res.send("error");  
+    } else{
+      // console.log(result);
+      res.send("data deleted");
+    }
+  })
+})
+
 app.listen(3000, () => {
   console.log("server is running...");
 });
