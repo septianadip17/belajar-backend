@@ -20,8 +20,8 @@ app.get("/dogs", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  console.log(req.path);
-  res.send("I dont know that path!");
+  res.send("I don't know that path!");
+  console.log(req);
 });
 
 app.listen(port, () => {
