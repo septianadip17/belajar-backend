@@ -11,6 +11,7 @@ const con = new Client({
   database: "demopost",
 });
 
+// post data
 app.post("/postData", (req, res) => {
   const { name, id } = req.body;
   const insert_query = "INSERT INTO demotable (name, id) VALUES ($1, $2)";
@@ -25,6 +26,7 @@ app.post("/postData", (req, res) => {
   });
 });
 
+// get all data
 app.get("/fetchData", (req, res) => {
   const fetch_query = "SELECT * FROM demotable";
   con.query(fetch_query, (err, result) => {
@@ -38,6 +40,7 @@ app.get("/fetchData", (req, res) => {
   });
 });
 
+// get data by id
 app.get("/fetchById/:id", (req, res) => {
   const { id } = req.params;
   const fetch_query = "SELECT * FROM demotable WHERE id = $1";
