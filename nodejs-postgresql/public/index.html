@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Demo Frontend</title>
+</head>
+<body>
+  <h1>PostgreSQL CRUD Demo</h1>
+
+  <h3>Create Data</h3>
+  <input id="name" placeholder="Name" />
+  <input id="id" placeholder="ID" />
+  <button onclick="createData()">Submit</button>
+
+  <h3>All Data</h3>
+  <button onclick="fetchData()">Load Data</button>
+  <ul id="dataList"></ul>
+
+  <script>
+    async function createData() {
+      const name = document.getElementById("name").value;
+      const id = document.getElementById("id").value;
+      const res = await fetch("/postData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, id }),
+      });
+      alert(await res.text());
+    }
+
+    async function fetchData() {
+      const res = await fetch("/fetchData");
+      const data = await res.json();
+      const list = document.getElementById("dataList");
+      list.innerHTML = "";
+      data.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `ID: ${item.id} - Name: ${item.name}`;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
