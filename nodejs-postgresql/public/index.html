@@ -1,32 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Demo Frontend</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PostgreSQL CRUD Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>PostgreSQL CRUD Demo</h1>
 
-  <h3>Create Data</h3>
-  <input id="name" placeholder="Name" />
-  <input id="id" placeholder="ID" />
-  <button onclick="createData()">Submit</button>
+<body class="bg-gray-100 min-h-screen p-6">
+  <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-bold text-center mb-6">PostgreSQL CRUD Demo</h1>
 
-  <h3>All Data</h3>
-  <button onclick="fetchData()">Load Data</button>
-  <ul id="dataList"></ul>
+    <h3 class="text-lg font-semibold mb-2">Create / Update Data</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <input id="name" placeholder="Name" class="border rounded px-3 py-2" />
+      <input id="id" placeholder="ID" class="border rounded px-3 py-2" />
+      <input id="address" placeholder="Address" class="border rounded px-3 py-2" />
+    </div>
+    <div class="flex gap-4 mb-6">
+      <button onclick="createData()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
+      <button onclick="updateData()"
+        class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Update</button>
+    </div>
+
+    <h3 class="text-lg font-semibold mb-2">All Data</h3>
+    <button onclick="fetchData()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mb-4">Load
+      Data</button>
+    <ul id="dataList" class="space-y-2"></ul>
+  </div>
 
   <script>
+    let currentId = null;
+
     async function createData() {
       const name = document.getElementById("name").value;
       const id = document.getElementById("id").value;
+      const address = document.getElementById("address").value;
+
       const res = await fetch("/postData", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, id }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          id,
+          address
+        }),
       });
+
       alert(await res.text());
+      fetchData();
+      resetForm();
     }
 
     async function fetchData() {
@@ -34,12 +60,73 @@
       const data = await res.json();
       const list = document.getElementById("dataList");
       list.innerHTML = "";
+
       data.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = `ID: ${item.id} - Name: ${item.name}`;
+        li.className = "bg-gray-200 p-3 rounded flex justify-between items-center";
+
+        li.innerHTML = `
+          <span>ID: ${item.id} - Name: ${item.name} - Address: ${item.address}</span>
+          <div class="space-x-2">
+            <button onclick='editData(${JSON.stringify(item)})' class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 text-sm">Edit</button>
+            <button onclick='deleteData("${item.id}")' class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm">Delete</button>
+          </div>
+        `;
+
         list.appendChild(li);
       });
     }
+
+    function editData(item) {
+      document.getElementById("name").value = item.name;
+      document.getElementById("id").value = item.id;
+      document.getElementById("address").value = item.address;
+      currentId = item.id;
+    }
+
+    async function updateData() {
+      if (!currentId) {
+        alert("Pilih data untuk di-update dengan menekan tombol Edit.");
+        return;
+      }
+
+      const name = document.getElementById("name").value;
+      const address = document.getElementById("address").value;
+
+      const res = await fetch(`/update/${currentId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          address
+        }),
+      });
+
+      alert(await res.text());
+      fetchData();
+      resetForm();
+    }
+
+    async function deleteData(id) {
+      if (confirm("Yakin ingin menghapus data ini?")) {
+        const res = await fetch(`/delete/${id}`, {
+          method: "DELETE",
+        });
+
+        alert(await res.text());
+        fetchData();
+      }
+    }
+
+    function resetForm() {
+      document.getElementById("name").value = "";
+      document.getElementById("id").value = "";
+      document.getElementById("address").value = "";
+      currentId = null;
+    }
   </script>
 </body>
+
 </html>
