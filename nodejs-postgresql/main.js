@@ -2,7 +2,7 @@ const { Client } = require("pg");
 const express = require("express");
 const app = express();
 app.use(express.json());
-app.use(express.static("public")); // Serve HTML/CSS/JS files
+app.use(express.static("public"));
 
 const con = new Client({
   host: "localhost",
