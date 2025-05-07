@@ -23,6 +23,7 @@ app.get("*", (req, res) => {
   res.send("I don't know that path!");
   console.log(req);
 });
+// still doesn't work
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
