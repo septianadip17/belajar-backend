@@ -12,6 +12,12 @@ app.get("/r/:subreddit", (req, res) => {
   console.log(req.params);
 })
 
+app.get("/r/:subreddit/:postId", (req, res) => {
+  const { subreddit, postId } = req.params;
+  res.send(`<h1>Viewing Post ID: ${postId} on the ${subreddit} subreddit</h1>`);
+  console.log(req.params);
+})
+
 app.get("/cats", (req, res) => {
   res.send("Meow!");
 });
