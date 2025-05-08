@@ -6,6 +6,12 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.get("/r/:subreddit", (req, res) => {
+  const { subreddit } = req.params;
+  res.send(`<h1>Browsing the ${subreddit} subreddit</h1>`); 
+  console.log(req.params);
+})
+
 app.get("/cats", (req, res) => {
   res.send("Meow!");
 });
@@ -21,9 +27,8 @@ app.get("/dogs", (req, res) => {
 
 app.get("*", (req, res) => {
   res.send("I don't know that path!");
-  console.log(req);
+  console.log(`Unknown path requested: ${req.path}`);
 });
-// still doesn't work
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
