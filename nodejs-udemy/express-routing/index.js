@@ -31,6 +31,7 @@ app.get("/dogs", (req, res) => {
   console.log("Someone made a request to /dogs");
 });
 
+// query string
 app.get("/search", (req, res) => {
   const { q } = req.query;
   if (!q) {
@@ -40,6 +41,8 @@ app.get("/search", (req, res) => {
   }
   console.log(req.query);
 });
+
+
 
 app.get("*", (req, res) => {
   res.send("I don't know that path!");
